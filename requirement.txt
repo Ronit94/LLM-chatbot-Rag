@@ -1,0 +1,7 @@
+streamlit
+authlib
+python-dotenv
+pymongo
+lanchain
+langchain-huggingface
+langchain-pinecone

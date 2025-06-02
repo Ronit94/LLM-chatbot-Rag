@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+*.pyc
+.env
+.env.*
+.DS_Store
+.idea/
+uploads/
+llm-chatbot-env/
