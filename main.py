@@ -6,6 +6,7 @@ from config import redirect_url, google_client_id, google_client_secret, auth_ur
 import time
 import logging
 from app.chatbot import streamlit_chat_interface
+import asyncio
 
 # Your credentials from Google Cloud Console
 GOOGLE_CLIENT_ID = google_client_id
@@ -63,7 +64,7 @@ client = OAuth2Session(
 )
 
 
-def main():
+async def main():
     # --- Check Streamlit Session ---
     logging.debug("session", st.session_state)
     if "user_email" in st.session_state:
@@ -78,9 +79,11 @@ def main():
             if st.button("🚪 Logout"):
                 del st.session_state["user_email"]
                 del st.session_state["code"]
+                st.query_params.clear()
+                st.session_state.clear()
                 st.rerun()
 
-            streamlit_chat_interface(user_info)
+            await streamlit_chat_interface(user_info)
 
 
         else:
@@ -90,8 +93,10 @@ def main():
 
     else:
         # Check OAuth redirect
-        query_params = st.experimental_get_query_params()
-        code = query_params.get("code", [None])[0]
+        # query_params = st.experimental_get_query_params()
+        query_params = st.query_params
+        # code = query_params.get("code", [None])[0]
+        code = query_params.get("code", None)
 
         logging.debug("code==================>", code)
         st.session_state["code"] = code
@@ -122,4 +127,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
+    # asyncio.run(load_llm_model())

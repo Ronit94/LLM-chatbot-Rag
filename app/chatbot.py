@@ -43,7 +43,7 @@ def save_uploaded_file_locally(uploaded_file, folder="uploads"):
 
 
 
-def streamlit_chat_interface(user_info):
+async def streamlit_chat_interface(user_info):
     # Initialize chat history
     st.sidebar.header("📎 Upload Document")
     uploaded_file = st.sidebar.file_uploader("Upload PDF or Word file", type=["pdf", "docx"])

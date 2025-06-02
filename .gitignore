@@ -6,4 +6,4 @@ __pycache__/
 .DS_Store
 .idea/
 uploads/
-llm-chatbot-env/
+llm-chatbot-env/*
