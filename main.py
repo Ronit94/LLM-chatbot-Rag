@@ -7,6 +7,9 @@ import time
 import logging
 from app.chatbot import streamlit_chat_interface
 import asyncio
+import os
+
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 
 # Your credentials from Google Cloud Console
 GOOGLE_CLIENT_ID = google_client_id
