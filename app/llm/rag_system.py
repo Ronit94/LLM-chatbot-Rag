@@ -15,10 +15,6 @@ from langchain_core.documents import Document
 
 
 # Connect to Pinecone
-
-
-
-
 def pdfLoader(file_path) -> str:
     reader = PyPDFLoader(file_path)
     raw_text = ""
@@ -49,3 +45,13 @@ async def load_llm_model():
     # if not embedding_model:
     #     raise ValueError("Embedding model could not be initialized. Check your environment variables.")
     return "hello"
+
+
+def question_answering(query, docs):
+    """
+    Function to perform question answering using the provided query and documents.
+    This is a placeholder function and should be replaced with actual logic.
+    """
+    # Here you would typically use a model to answer the question based on the documents
+    # For now, we will just return a dummy response
+    return f"Answer to '{query}' based on provided documents."

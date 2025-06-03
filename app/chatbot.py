@@ -8,10 +8,7 @@ from app.llm.rag_system import load_data_embedding, pdfLoader, text_spliter
 
 
 
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-if "file_text" not in st.session_state:
-    st.session_state.file_text = ""
+
 
 # Streamed response emulator
 def response_generator():
@@ -45,6 +42,39 @@ def save_uploaded_file_locally(uploaded_file, folder="uploads"):
 
 async def streamlit_chat_interface(user_info):
     # Initialize chat history
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+    if "file_text" not in st.session_state:
+        st.session_state.file_text = ""
+    with st.sidebar:
+        st.title("🔐 LLM Chatbot with RAG")
+        st.write("Welcome to the LLM Chatbot with RAG! Upload your documents and ask questions.")
+        st.write(f"👤 User: {user_info.get('email', 'Guest')}")
+        st.write(f"🗓️ Session started at: {time.strftime('%Y-%m-%d %H:%M:%S')}")
+        
+        if "OPENAI_API_KEY" not in os.environ:
+            default_openai_api_key = os.getenv("OPENAI_API_KEY") if os.getenv("OPENAI_API_KEY") is not None else ""  # only for development environment, otherwise it should return None
+            with st.popover("🔐 OpenAI"):
+                openai_api_key = st.text_input(
+                    "Introduce your OpenAI API Key (https://platform.openai.com/)", 
+                    value=default_openai_api_key, 
+                    type="password",
+                    key="openai_api_key",
+                )
+            default_groq_api_key = os.getenv("GROQ_API_KEY") if os.getenv("GROQ_API_KEY") is not None else ""  # only for development environment, otherwise it should return None
+            with st.popover("🔐 Groq"):
+                groq_api_key = st.text_input(
+                    "Introduce your Groq API Key (https://console.groq.com/)", 
+                    value=default_groq_api_key, 
+                    type="password",
+                    key="groq_api_key",
+                )
+                
+                st.session_state["OPENAI_API_KEY"] = openai_api_key
+                st.session_state["GROQ_API_KEY"] = groq_api_key
+    
+    
+    
     st.sidebar.header("📎 Upload Document")
     uploaded_file = st.sidebar.file_uploader("Upload PDF or Word file", type=["pdf", "docx"])
 
@@ -85,6 +115,9 @@ async def streamlit_chat_interface(user_info):
             response = f"I received your question: '{user_input}'.\n\nUnfortunately, I am just a demo bot right now 😅"
 
             # Append to chat history
+            if "chat_history" not in st.session_state:
+                st.session_state.chat_history = []
+                
             st.session_state.chat_history.append(("user", user_input))
             st.session_state.chat_history.append(("bot", response))
 

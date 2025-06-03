@@ -21,8 +21,8 @@ client_mongo = MongoClient(database_url)
 db = client_mongo["sample_mflix"]
 session_col = db["sessions"]
 
-st.set_page_config(page_title="LLM Chatbot with RAG System", layout="centered")
-st.title("🔐 LLM Chatbot with RAG System with Google OAuth")
+st.set_page_config(page_title="LLM Chatbot with RAG", layout="centered")
+st.title("🔐 LLM Chatbot with RAG")
 
 
 
